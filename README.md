@@ -18,5 +18,5 @@ $ curl http://localhost:8080/hello -H 'Content-Type: application/json' -H 'Autho
 $ curl http://localhost:8080/hello -H 'Content-Type: application/json' -H 'Authorization: '
 ```
 ```
-$ curl http://localhost:8080/hello -H 'Content-Type: application/json' -H 'Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MzM2OTE3ODQsImlhdCI6MTYzMzY4ODE4NCwidXNlcm5hbWUiOiJzb21ldXNlciJ9.uagwCp1Bc507iC_4lAgEsZmM6vAWBbkdk0B4zTmo9_k'
+$ curl http://localhost:8080/hello -H 'Content-Type: application/json' -H 'Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MzM2OTIxNDIsImlhdCI6MTYzMzY4ODU0MiwidXNlcm5hbWUiOiJzb21ldXNlciJ9.MHJoXw4S_uUpNnATjdkSGRea3vELDHYGzr7qOCbRPmQ'
 ```
