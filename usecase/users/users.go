@@ -3,6 +3,7 @@ package users
 import (
 	"fmt"
 	"jwt-in-golang/entity"
+	"log"
 	"time"
 
 	"github.com/dgrijalva/jwt-go"
@@ -95,8 +96,10 @@ func CreateToken(userName string) (string, error) {
 		"exp":      now.Add(time.Hour * time.Duration(1)).Unix(),
 	}
 
+	log.Printf("token.Claims %+v", token.Claims)
+
 	// Sign and get the complete encoded token as a string
-	tokenString, err := token.SignedString([]byte("t0k3n"))
+	tokenString, err := token.SignedString([]byte("default-jwt-secret"))
 	if err != nil {
 		return "", err
 	}

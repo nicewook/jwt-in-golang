@@ -12,5 +12,11 @@ $ curl --location --request POST http://localhost:8080/users/signin --header 'Co
 
 ## say hello
 ```
-$ curl http://localhost:8080/hello -H 'Content-Type: application/json' -H 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MzM2OTA4MjEsImlhdCI6MTYzMzY4NzIyMSwidXNlcm5hbWUiOiJzb21ldXNlciJ9.CqhSQ7_A4ViJ2HYa45FeLJSDvBD8I-cEvOmXmQT2R3U'
+$ curl http://localhost:8080/hello -H 'Content-Type: application/json' -H 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MzM2OTEzMDksImlhdCI6MTYzMzY4NzcwOSwidXNlcm5hbWUiOiJzb21ldXNlciJ9.kzdcvoyAoizAzvDBVnUUNRR_Z6dJe3ik4XPnwE5ntX0'
+```
+```
+$ curl http://localhost:8080/hello -H 'Content-Type: application/json' -H 'Authorization: '
+```
+```
+$ curl http://localhost:8080/hello -H 'Content-Type: application/json' -H 'Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MzM2OTE3ODQsImlhdCI6MTYzMzY4ODE4NCwidXNlcm5hbWUiOiJzb21ldXNlciJ9.uagwCp1Bc507iC_4lAgEsZmM6vAWBbkdk0B4zTmo9_k'
 ```
