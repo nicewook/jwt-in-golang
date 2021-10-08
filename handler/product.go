@@ -1,7 +1,7 @@
 package handler
 
 import (
-	"jwt-in-golang/internal/model"
+	"jwt-in-golang/model"
 	"net/http"
 
 	"github.com/gin-gonic/gin"

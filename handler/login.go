@@ -4,8 +4,8 @@ import (
 	"net/http"
 	"time"
 
-	"jwt-in-golang/internal/model"
-	"jwt-in-golang/internal/token"
+	"jwt-in-golang/model"
+	"jwt-in-golang/token"
 
 	"github.com/gin-gonic/gin"
 )

@@ -2,7 +2,7 @@ package token
 
 import (
 	"fmt"
-	"jwt-in-golang/internal/model"
+	"jwt-in-golang/model"
 	"log"
 	"time"
 
