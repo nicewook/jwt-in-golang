@@ -18,12 +18,12 @@ type SQLiteDB struct {
 
 func createTable(db *sql.DB) error {
 	usersTableSQL := `CREATE TABLE IF NOT EXISTS users (
-		username        TEXT,
-		password          TEXT,
-		first_name              TEXT,
-		last_name            TEXT,
-		address         TEXT,
-		email          TEXT
+		username   TEXT,
+		password   TEXT,
+		first_name TEXT,
+		last_name  TEXT,
+		address    TEXT,
+		email      TEXT
 	);`
 
 	log.Println("Create transaction users table...")

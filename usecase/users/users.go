@@ -10,20 +10,18 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
-func (ser *Service) SignUp(input entity.User) error {
+func (svc *Service) SignUp(input entity.User) error {
 	// need to hash the password
 	hashed, err := HashAndSalt(input.Password)
 	if err != nil {
-		ser.Logger.Error().
-			Msgf("failed to encrypt password with error: %s", err)
+		log.Printf("failed to encrypt password with error: %s", err)
 		return err
 	}
 
-	ser.Logger.Debug().Msgf("username: %v", input.Username)
-	details, err := ser.Repository.GetUser(input.Username)
+	log.Printf("username: %v", input.Username)
+	details, err := svc.Repository.GetUser(input.Username)
 	if err != nil {
-		ser.Logger.Error().
-			Msgf("failed to get user with error: %s", err)
+		log.Printf("failed to get user with error: %s", err)
 		return err
 	}
 
@@ -34,17 +32,16 @@ func (ser *Service) SignUp(input entity.User) error {
 	// sending the input but only changing the password to the hashed
 	input.Password = hashed
 
-	err = ser.Repository.AddUser(input)
+	err = svc.Repository.AddUser(input)
 	if err != nil {
-		ser.Logger.Error().
-			Msgf("failed to add user with error: %s", err)
+		log.Printf("failed to add user with error: %s", err)
 		return err
 	}
 	return nil
 }
 
-func (ser *Service) SignIn(input entity.User) (token string, err error) {
-	details, err := ser.Repository.GetUser(input.Username)
+func (svc *Service) SignIn(input entity.User) (token string, err error) {
+	details, err := svc.Repository.GetUser(input.Username)
 	if err != nil {
 		return token, err
 	}
@@ -57,10 +54,9 @@ func (ser *Service) SignIn(input entity.User) (token string, err error) {
 		return token, entity.ErrInvalidPassword
 	}
 
-	token, err = CreateToken(details.Username)
+	token, err = CreateToken(details, svc.JWTSecret)
 	if err != nil {
-		ser.Logger.Error().
-			Msgf("failed to create token with error: %s", err)
+		log.Printf("failed to create token with error: %s", err)
 		return token, err
 	}
 	return token, nil
@@ -69,42 +65,13 @@ func (ser *Service) SignIn(input entity.User) (token string, err error) {
 func (ser *Service) SayHello(input entity.User) (message string, err error) {
 	details, err := ser.Repository.GetUser(input.Username)
 	if err != nil {
-		ser.Logger.Error().
-			Msgf("failed to retrieve user data: %s", err)
+		log.Printf("failed to retrieve user data: %s", err)
 		return message, err
 	}
 
 	message = fmt.Sprintf("Hello %s", details.FirstName)
 
 	return message, nil
-}
-
-func ComparePasswords(hashed, plain string) bool {
-	// compare the hashed and plain passwords
-	err := bcrypt.CompareHashAndPassword([]byte(hashed), []byte(plain))
-	return err == nil
-}
-
-func CreateToken(userName string) (string, error) {
-	// Create the token
-	token := jwt.New(jwt.GetSigningMethod("HS256"))
-
-	now := time.Now().Local()
-	token.Claims = jwt.MapClaims{
-		"username": userName,
-		"iat":      now.Unix(),
-		"exp":      now.Add(time.Hour * time.Duration(1)).Unix(),
-	}
-
-	log.Printf("token.Claims %+v", token.Claims)
-
-	// Sign and get the complete encoded token as a string
-	tokenString, err := token.SignedString([]byte("default-jwt-secret"))
-	if err != nil {
-		return "", err
-	}
-
-	return tokenString, nil
 }
 
 func HashAndSalt(password string) (string, error) {
@@ -114,4 +81,32 @@ func HashAndSalt(password string) (string, error) {
 		return "", err
 	}
 	return string(hash), nil
+}
+
+func ComparePasswords(hashed, plain string) bool {
+	// compare the hashed and plain passwords
+	err := bcrypt.CompareHashAndPassword([]byte(hashed), []byte(plain))
+	return err == nil
+}
+
+func CreateToken(user entity.User, jwtSecret string) (string, error) {
+	// Create the token
+	token := jwt.New(jwt.GetSigningMethod("HS256"))
+
+	now := time.Now().Local()
+	token.Claims = jwt.MapClaims{
+		"username": user.Username,
+		"iat":      now.Unix(),
+		"exp":      now.Add(time.Hour * time.Duration(1)).Unix(),
+	}
+
+	log.Printf("token.Claims %+v", token.Claims)
+
+	// Sign and get the complete encoded token as a string
+	tokenString, err := token.SignedString([]byte(jwtSecret))
+	if err != nil {
+		return "", err
+	}
+
+	return tokenString, nil
 }

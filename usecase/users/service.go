@@ -1,17 +1,13 @@
 package users
 
-import (
-	"github.com/rs/zerolog"
-)
-
 type Service struct {
-	Repository Repository
-	Logger     *zerolog.Logger
+	Repository
+	JWTSecret string
 }
 
-func LoadService(repository Repository, logger *zerolog.Logger) *Service {
+func LoadService(repository Repository, jwtSecret string) *Service {
 	return &Service{
-		Logger:     logger,
 		Repository: repository,
+		JWTSecret:  jwtSecret,
 	}
 }

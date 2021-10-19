@@ -4,5 +4,5 @@ import "jwt-in-golang/entity"
 
 type Repository interface {
 	GetUser(key string) (entity.User, error)
-	AddUser(item entity.User) (err error)
+	AddUser(user entity.User) (err error)
 }
